@@ -1,6 +1,6 @@
 /* This is the console executable, that makes use of the BullCow class
 This acts as the view in a MVC pattern, and is responsible for all
-user interaction. For Game logic see the FBullCowGameFirst
+user interaction. For Game logic see the FBullCowGame first
 */
 #pragma once
 
@@ -8,14 +8,10 @@ user interaction. For Game logic see the FBullCowGameFirst
 #include <string>
 #include "FBullCowGame.h"
 
-// to make syntax Unreal friendly
-using FText = std::string;
-using int32 = int;
-
 // function prototypes as outside a class
 void PrintIntro();
 void PlayGame();
-FText GetValidGuess();
+std::string GetValidGuess();
 bool AskToPlayAgain();
 void PrintGameSummary();
 
@@ -62,12 +58,12 @@ void PrintIntro() {
 void PlayGame()
 {
 	BCGame.Reset();
-	int32 MaxTries = BCGame.GetMaxTries();
+	int MaxTries = BCGame.GetMaxTries();
 
 	// loop asking for guesses while the game
 	// is NOT WON and there are still tries remaining
 	while (!BCGame.IsGameWon() && BCGame.GetCurrentTry() <= MaxTries) {
-		FText Guess = GetValidGuess();
+		std::string Guess = GetValidGuess();
 		
 		// submit valid guess to the game, and receive counts
 		FBullCowCount BullCowCount = BCGame.SubmitValidGuess(Guess);
@@ -82,12 +78,12 @@ void PlayGame()
 }
 
 // loop continually until the user gives a valid guess
-FText GetValidGuess() {
-	FText Guess = "";
+std::string GetValidGuess() {
+	std::string Guess = "";
 	EGuessStatus Status = EGuessStatus::Invalid_Status;
 	do {
 		// Get a Guess from the Player
-		int32 CurrentTry = BCGame.GetCurrentTry();
+		int CurrentTry = BCGame.GetCurrentTry();
 		std::cout << "Try " << CurrentTry << " of " << BCGame.GetMaxTries();
 		std::cout << ". Enter your guess: ";
 		std::getline(std::cin, Guess);
@@ -115,7 +111,7 @@ FText GetValidGuess() {
 
 bool AskToPlayAgain() {
 	std::cout << "Do you want to play again (y/n)? ";
-	FText Response = "";
+	std::string Response = "";
 	std::getline(std::cin, Response);
 	return (Response[0] == 'y') || (Response[0] == 'Y');
 }
